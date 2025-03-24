@@ -1,0 +1,12 @@
+İlk Hafta İlerleme Raporu
+
+Proje: Otel Rezervasyon Uygulaması
+Flutter, Android Studio, Git
+
+Yapılan Çalışmalar:
+	1.	Geliştirme Ortamının Kurulumu:
+	•	Flutter SDK, Android Studio sistemime kuruldu.
+	•	Android Studio’nun SDK Manager ve AVD Manager araçları üzerinden sistem imajları ve emülatör kurulumu için gerekli paketler indirildi.
+	2.	Emülatör Kurulum :
+	•	Hem Google Play’li hem de Google Play’siz (default) sistem imajları ile emülatör oluşturma çalışmaları gerçekleştirildi.
+	•	Komut satırından AVD Manager kullanarak emülatör oluşturma adımları belirlendi ama emülatör çalışamadı.
