@@ -23,7 +23,7 @@ export default function Home() {
       <View className="flex-1 justify-center items-center">
         <Image
           source={require('../assets/icon.png')}
-          className="w-36 h-36 mb-6 rounded-2xl shadow-md"
+          className="w-48 h-48 mb-6 rounded-2xl shadow-md"
           resizeMode="contain"
         />
         <Text className="text-3xl font-bold text-[#5D4A42] text-center">
