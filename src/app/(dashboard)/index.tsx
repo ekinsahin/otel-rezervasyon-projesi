@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Image,
   SafeAreaView,
+  Modal,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
@@ -38,6 +39,9 @@ const dummyHotels = [
 export default function Search() {
   const [search, setSearch] = useState('');
   const [hotels, setHotels] = useState(dummyHotels);
+  const [showFilters, setShowFilters] = useState(false);
+  const [priceRange, setPriceRange] = useState([0, 5000]);
+  const [selectedLocation, setSelectedLocation] = useState('');
   const router = useRouter();
 
   const filteredHotels = hotels.filter(h =>
@@ -61,14 +65,20 @@ export default function Search() {
 
   return (
     <SafeAreaView className="flex-1 mb-5 bg-white">
-      <View className="mx-4 mt-4 mb-2">
+      <View className="mx-4 mt-4 mb-2 flex-row items-center space-x-2">
         <TextInput
           placeholder="Otel veya konum ara..."
           placeholderTextColor="#b9939d"
           value={search}
           onChangeText={setSearch}
-          className="bg-[#fbeaec] px-4 py-3 rounded-full text-sm text-gray-800 border border-[#eed5d9]"
+          className="flex-1 bg-[#fbeaec] px-4 py-3 rounded-full text-sm text-gray-800 border border-[#eed5d9]"
         />
+        <TouchableOpacity
+          onPress={() => setShowFilters(true)}
+          className="bg-gradient-to-r from-[#d28f9b] to-[#e4a5b0] p-3 rounded-full shadow-sm"
+        >
+          <Ionicons name="options-outline" size={24} color="white" />
+        </TouchableOpacity>
       </View>
 
       <FlatList
@@ -78,6 +88,73 @@ export default function Search() {
         contentContainerStyle={{ paddingBottom: 100 }}
         showsVerticalScrollIndicator={false}
       />
+
+      {/* Filter Modal */}
+      <Modal
+        visible={showFilters}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={() => setShowFilters(false)}
+      >
+        <View className="flex-1 justify-end bg-black/50">
+          <View className="bg-white rounded-t-3xl p-6">
+            <View className="flex-row justify-between items-center mb-6">
+              <Text className="text-2xl font-bold text-gray-800">Filtreler</Text>
+              <TouchableOpacity onPress={() => setShowFilters(false)}>
+                <Ionicons name="close" size={24} color="#666" />
+              </TouchableOpacity>
+            </View>
+
+            <View className="space-y-6">
+              <View>
+                <Text className="text-lg font-semibold text-gray-700 mb-3">Konum</Text>
+                <View className="flex-row flex-wrap gap-2">
+                  {['Sapanca', 'Alaçatı', 'Abant', 'Bodrum', 'Antalya'].map((location) => (
+                    <TouchableOpacity
+                      key={location}
+                      onPress={() => setSelectedLocation(location)}
+                      className={`px-4 py-2 rounded-full border ${
+                        selectedLocation === location
+                          ? 'bg-[#d28f9b] border-[#d28f9b]'
+                          : 'bg-white border-gray-300'
+                      }`}
+                    >
+                      <Text
+                        className={`${
+                          selectedLocation === location ? 'text-white' : 'text-gray-700'
+                        }`}
+                      >
+                        {location}
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              </View>
+
+              <View>
+                <Text className="text-lg font-semibold text-gray-700 mb-3">Fiyat Aralığı</Text>
+                <View className="flex-row items-center space-x-4">
+                  <Text className="text-gray-600">{priceRange[0]}₺</Text>
+                  <View className="flex-1 h-1 bg-gray-200 rounded-full">
+                    <View
+                      className="h-1 bg-[#d28f9b] rounded-full"
+                      style={{ width: '50%' }}
+                    />
+                  </View>
+                  <Text className="text-gray-600">{priceRange[1]}₺</Text>
+                </View>
+              </View>
+
+              <TouchableOpacity
+                onPress={() => setShowFilters(false)}
+                className="bg-[#d28f9b] py-4 rounded-xl items-center"
+              >
+                <Text className="text-white font-semibold text-base">Filtreleri Uygula</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
 
       {/* Alt Menü */}
       <View className="absolute bottom-0 left-0 right-0 flex-row justify-around items-center bg-white border-t border-gray-200 py-3">

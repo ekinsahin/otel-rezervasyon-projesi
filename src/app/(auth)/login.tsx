@@ -103,13 +103,22 @@ export default function Login() {
               )}
             </TouchableOpacity>
 
-            <Text className="text-center text-gray-500 mt-6 mb-8">
+            <Text className="text-center text-gray-500 mt-6 mb-2">
               Hesabınız yok mu?{' '}
               <Text
                 className="text-[#d28f9b] font-semibold"
                 onPress={() => router.push('/(auth)/register')}
               >
                 Kayıt Olun
+              </Text>
+            </Text>
+
+            <Text className="text-center text-gray-500 mb-8">
+              <Text
+                className="text-[#d28f9b] font-semibold"
+                onPress={() => router.push('/(auth)/hotel-owner-login')}
+              >
+                Otel Sahibi misiniz? Giriş yapın
               </Text>
             </Text>
           </View>
