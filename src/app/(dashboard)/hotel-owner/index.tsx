@@ -60,6 +60,10 @@ export default function HotelOwnerDashboard() {
   const [answerText, setAnswerText] = useState('');
   const router = useRouter();
 
+  // Dummy kullanıcı ve otel adı
+  const userName = 'Ekin';
+  const hotelName = 'Test Otel';
+
   const handleAnswer = () => {
     if (answerText.trim()) {
       // Burada API'ye cevap gönderilecek
@@ -147,9 +151,15 @@ export default function HotelOwnerDashboard() {
   return (
     <SafeAreaView className="flex-1 bg-white">
       {/* Header */}
-      <View className="px-4 pt-5 pb-3 border-b border-gray-200">
-        <Text className="text-2xl font-bold text-[#d28f9b]">Otel Yönetimi</Text>
-        <Text className="text-sm text-gray-500">Pembe Bahçe Oteli</Text>
+      <View className="px-4 pt-5 pb-3 border-b border-gray-200 flex-row items-center justify-between">
+        <View>
+          <Text className="text-2xl font-bold text-[#d28f9b]">Otel Yönetimi</Text>
+          <Text className="text-sm text-gray-500">{hotelName}</Text>
+          <Text className="text-xs text-gray-400 mt-1">Hoş geldiniz, {userName}!</Text>
+        </View>
+        <TouchableOpacity onPress={() => router.replace('/(auth)/hotel-owner-login')} className="bg-[#fbeaec] px-3 py-2 rounded-xl">
+          <Ionicons name="log-out-outline" size={22} color="#d28f9b" />
+        </TouchableOpacity>
       </View>
 
       {/* Tab Butonları */}
@@ -191,13 +201,25 @@ export default function HotelOwnerDashboard() {
             <ActivityIndicator size="large" color="#d28f9b" />
           </View>
         ) : (
-          <FlatList
-            data={activeTab === 'reservations' ? reservations : questions}
-            keyExtractor={(item) => item.id}
-            renderItem={activeTab === 'reservations' ? renderReservation : renderQuestion}
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={{ paddingBottom: 100 }}
-          />
+          (activeTab === 'reservations' && reservations.length === 0) ? (
+            <View className="flex-1 justify-center items-center">
+              <Ionicons name="bed-outline" size={48} color="#d28f9b" style={{ marginBottom: 12 }} />
+              <Text className="text-lg text-gray-400">Henüz rezervasyon yok</Text>
+            </View>
+          ) : (activeTab === 'questions' && questions.length === 0) ? (
+            <View className="flex-1 justify-center items-center">
+              <Ionicons name="chatbubble-ellipses-outline" size={48} color="#d28f9b" style={{ marginBottom: 12 }} />
+              <Text className="text-lg text-gray-400">Gelen soru bulunamadı</Text>
+            </View>
+          ) : (
+            <FlatList
+              data={activeTab === 'reservations' ? reservations : questions as any}
+              keyExtractor={(item) => item.id}
+              renderItem={activeTab === 'reservations' ? renderReservation : renderQuestion}
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={{ paddingBottom: 100 }}
+            />
+          )
         )}
       </View>
 

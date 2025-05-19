@@ -18,6 +18,7 @@ export default function HotelOwnerLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
   const { login } = useAuth();
 
@@ -35,6 +36,7 @@ export default function HotelOwnerLogin() {
           <Text className="text-gray-500 text-center mt-2">
             Otel yönetim paneline hoş geldiniz
           </Text>
+          <Text className="text-xs text-gray-400 text-center mt-2">Giriş yapmak için lütfen bilgilerinizi eksiksiz girin.</Text>
         </View>
 
         {/* Form */}
@@ -77,8 +79,11 @@ export default function HotelOwnerLogin() {
                 onChangeText={setPassword}
                 placeholder="Şifrenizi girin"
                 className="flex-1 ml-2 text-gray-800"
-                secureTextEntry
+                secureTextEntry={!showPassword}
               />
+              <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+                <Ionicons name={showPassword ? 'eye-off-outline' : 'eye-outline'} size={20} color="#666" />
+              </TouchableOpacity>
             </View>
           </View>
 
